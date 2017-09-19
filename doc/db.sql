@@ -1,15 +1,15 @@
 -- 菜单
---CREATE TABLE `sys_menu` (
---  `menu_id` bigint NOT NULL AUTO_INCREMENT,
---  `parent_id` bigint COMMENT '父菜单ID，一级菜单为0',
---  `name` varchar(50) COMMENT '菜单名称',
---  `url` varchar(200) COMMENT '菜单URL',
---  `perms` varchar(500) COMMENT '授权(多个用逗号分隔，如：user:list,user:create)',
---  `type` int COMMENT '类型   0：目录   1：菜单   2：按钮',
---  `icon` varchar(50) COMMENT '菜单图标',
---  `order_num` int COMMENT '排序',
---  PRIMARY KEY (`menu_id`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单管理';
+CREATE TABLE `sys_menu` (
+  `menu_id` bigint NOT NULL AUTO_INCREMENT,
+  `parent_id` bigint COMMENT '父菜单ID，一级菜单为0',
+  `name` varchar(50) COMMENT '菜单名称',
+  `url` varchar(200) COMMENT '菜单URL',
+  `perms` varchar(500) COMMENT '授权(多个用逗号分隔，如：user:list,user:create)',
+  `type` int COMMENT '类型   0：目录   1：菜单   2：按钮',
+  `icon` varchar(50) COMMENT '菜单图标',
+  `order_num` int COMMENT '排序',
+  PRIMARY KEY (`menu_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单管理';
 
 -- 系统用户  增加了一个expert_id，如果是专家用户则关联专家表的expert_id
 --增加了一个login_count字段，判断是否首次登陆，导入专家信息时需同时导入sys_expert,sys_user,sys_role,sys_user_role,sys_role_menu表
@@ -29,18 +29,18 @@ CREATE TABLE `sys_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户';
 
 -- 系统用户
-CREATE TABLE `sys_user` (
-  `user_id` bigint NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL COMMENT '用户名',
-  `password` varchar(100) COMMENT '密码',
-  `email` varchar(100) COMMENT '邮箱',
-  `mobile` varchar(100) COMMENT '手机号',
-  `status` tinyint COMMENT '状态  0：禁用   1：正常',
-  `create_user_id` bigint(20) COMMENT '创建者ID',
-  `create_time` datetime COMMENT '创建时间',
-  PRIMARY KEY (`user_id`),
-  UNIQUE INDEX (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户';
+--CREATE TABLE `sys_user` (
+--  `user_id` bigint NOT NULL AUTO_INCREMENT,
+--  `username` varchar(50) NOT NULL COMMENT '用户名',
+--  `password` varchar(100) COMMENT '密码',
+--  `email` varchar(100) COMMENT '邮箱',
+--  `mobile` varchar(100) COMMENT '手机号',
+--  `status` tinyint COMMENT '状态  0：禁用   1：正常',
+--  `create_user_id` bigint(20) COMMENT '创建者ID',
+--  `create_time` datetime COMMENT '创建时间',
+--  PRIMARY KEY (`user_id`),
+--  UNIQUE INDEX (`username`)
+--) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户';
 
 -- 角色
 CREATE TABLE `sys_role` (
@@ -121,7 +121,7 @@ INSERT INTO `sys_menu` VALUES (24, 4, '新增', NULL, 'sys:menu:save,sys:menu:se
 INSERT INTO `sys_menu` VALUES (25, 4, '修改', NULL, 'sys:menu:update,sys:menu:select', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (26, 4, '删除', NULL, 'sys:menu:delete', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (27, 0, '专家管理', NULL, NULL, 0, 'fa fa-user', 1);
-INSERT INTO `sys_menu` VALUES (28, 27, '专家列表', 'http://test', NULL, 1, 'fa fa-user', 0);
+INSERT INTO `sys_menu` VALUES (28, 27, '专家列表', 'http://test', 'sys:expert:list', 1, 'fa fa-user', 0);
 INSERT INTO `sys_menu` VALUES (29, 27, '专家查询', 'http://test', NULL, 1, 'fa fa-user', 0);
 INSERT INTO `sys_menu` VALUES (30, 0, '项目管理', NULL, NULL, 0, 'fa fa-suitcase', 2);
 INSERT INTO `sys_menu` VALUES (31, 30, '项目列表', 'http://test', NULL, 1, 'fa fa-list-ul', 0);
@@ -167,7 +167,43 @@ CREATE TABLE `tb_token` (
 -- 账号：13612345678  密码：admin
 INSERT INTO `tb_user` (`username`, `mobile`, `password`, `create_time`) VALUES ('mark', '13612345678', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '2017-03-23 22:37:41');
 
-
+-- 专家详细信息表
+CREATE TABLE `sys_expert` (
+  `expert_id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL COMMENT '专家姓名',
+  `gender` char(1) NOT NULL COMMENT '性别,1男,0女',
+  `nation` varchar(10) NOT NULL COMMENT '民族',
+  `party` varchar(10) NOT NULL COMMENT '党派',
+  `idNum` varchar(20) NOT NULL COMMENT '身份证号',
+  `birth` varchar(10) COMMENT '出生日期',
+  `highestEdu` varchar(10) COMMENT '最高学历',
+  `graduateSchool` varchar(20) COMMENT '毕业院校',
+  `major1` varchar(20) COMMENT '所学专业',
+  `major2` varchar(20) COMMENT '从事专业',
+  `unitProperty` varchar(10) COMMENT '单位性质',
+  `isAcademician` char(1) COMMENT '是否院士，1是，0否',
+  `expertTitle` varchar(10) COMMENT '技术职称',
+  `expertJob` varchar(10) COMMENT '担任职务',
+  `onDuty` char(1) COMMENT '在职情况,1在职，0离职',
+  `mobile` varchar(20) COMMENT '移动电话',
+  `fax` varchar(20) COMMENT '传真',
+  `email` varchar(30) COMMENT '电子邮件',
+  `address` varchar(64) COMMENT '通信地址',
+  `postcode` varchar(10) COMMENT '邮政编码',
+  `researchField` varchar(20) COMMENT '研究领域',
+  `researchDirection` varchar(20) COMMENT '研究方向',
+  `language` varchar(10) COMMENT '熟悉语种',
+  `proficiency` varchar(2) COMMENT '熟练程度',
+  `resume` text COMMENT '专业简历',
+  `recommendUnit` varchar(30) COMMENT '推荐单位名称',
+  `workUnit` varchar(30) COMMENT '工作单位名称',
+  `remark` varchar(128) COMMENT '备注',
+  `create_time` datetime COMMENT '创建时间',
+  `create_user_id` bigint(20) COMMENT '创建者ID',
+  `modify_time` datetime COMMENT '修改时间',
+  `modify_user_id` bigint(20) COMMENT '修改者ID',
+  PRIMARY KEY (`expert_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='专家信息表';
 
 
 -- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
