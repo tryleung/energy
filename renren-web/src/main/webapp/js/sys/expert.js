@@ -10,15 +10,21 @@ $(function () {
 			{ label: '研究领域', name: 'researchfield', index: 'researchField', width: 80 }, 	
 			{ label: '研究方向', name: 'researchdirection', index: 'researchDirection', width: 80 }, 	
 			{ label: '手机号', name: 'mobile', index: 'mobile', width: 80 }, 	
-			{ label: '状态', name: 'status', index: 'status', width: 40 },
-			{ label: '操作列', name: 'status', index: 'status', width: 80 ,formatter: function(value, options, row){
-				var html = "<a href=\"#\" id=\"show\">查看<a>&nbsp;&nbsp;<a href=\"#\">修改</a>&nbsp;&nbsp;";
-				if(value == "0") {
-					return html + "<a href=\"#\">启用<a>";
-				} else if(value == "1") {
-					return html += "<a href=\"#\">禁用<a>";
+			{ label: '状态', name: 'status', index: 'status', width: 40,formatter: function(value, options, row){
+				if(value == "1") {
+					return "启用";
+				} else if(value == "0") {
+					return "禁用";
 				}
-			}}
+			} },
+//			{ label: '操作列', name: 'status', index: 'status', width: 80 ,formatter: function(value, options, row){
+//				var html = "<a class=\"abc\" href=\"expertDetail.html\">查看<a>&nbsp;&nbsp;<a href=\"#\">修改</a>&nbsp;&nbsp;";
+//				if(value == "0") {
+//					return html + "<a href=\"#\">启用<a>";
+//				} else if(value == "1") {
+//					return html += "<a href=\"#\">禁用<a>";
+//				}
+//			}}
 			
         ],
 		viewrecords: true,
@@ -45,6 +51,19 @@ $(function () {
         	//隐藏grid底部滚动条
         	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
         }
+    });
+    $("#query_btn").click(function(){
+    	var page = $("#jqGrid").jqGrid('getGridParam','page');
+		$("#jqGrid").jqGrid('setGridParam',{ 
+			postData:{'name': $("#input_name").val(), 'highestEdu': $("#select_highestEdu").val(), 'researchField': $("#select_researchField").val(), 'researchDirection': $("#select_researchDirection").val()},
+            page:page
+        }).trigger("reloadGrid");
+    });
+    $("#reset_btn").click(function(){
+    	$("#input_name").val("");
+    	$("#select_highestEdu").val("");
+    	$("#select_researchField").val("");
+    	$("#select_researchDirection").val("");
     });
 });
 
@@ -135,11 +154,13 @@ var vm = new Vue({
                 page:page
             }).trigger("reloadGrid");
 		},
-		reset: function () {
-			vm.q.name= null;
-			vm.q.highestEdu= null;
-			vm.q.researchField= null;
-			vm.q.researchDirection= null;
+		show: function () {
+			var expertId = getSelectedRow();
+			
+			if(expertId == null){
+				return ;
+			}
+		    window.open("../sys/expertDetail.html?expertId=" + expertId);
 		}
 	}
 });

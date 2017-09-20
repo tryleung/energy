@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>专家信息</title>
+<script src="${rc.contextPath}/statics/libs/jquery.min.js"></script>
+<style type="text/css">
+<!--
+body,td,th {
+    font-size: 12pt;
+}
+-->
+</style>
+</head>
+<body>
+<h2 align="center">专家信息</h2>
+<table width="80%" border="1" align="center" cellpadding="20" cellspacing="0">
+  <tr>
+    <td width="9%"><span style="color:red">*</span><b>姓名</b></td>
+    <td width="12%" id="name">&nbsp;</td>
+    <td width="12%"><b>性别</b></td>
+    <td width="3%" id="gender">&nbsp;</td>
+    <td width="10%"><b>民族</b></td>
+    <td width="13%" id="nation">&nbsp;</td>
+    <td width="12%"><b>党派</b></td>
+    <td width="12%" id="party">&nbsp;</td>
+    <td width="17%" rowspan="4" id="photoPath"></td>
+  </tr>
+  <tr>
+    <td><span style="color:red">*</span><b>身份证号</b></td>
+    <td colspan="5" id="idNum">&nbsp;</td>
+    <td><b>出生年月</b></td>
+    <td id="birth">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><b>最高学历</b></td>
+    <td id="highestEdu">&nbsp;</td>
+    <td><b>毕业院校</b></td>
+    <td colspan="5" id="graduateSchool">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><b>所学专业</b></td>
+    <td colspan="3" id="major1">&nbsp;</td>
+    <td><b>从事专业</b></td>
+    <td colspan="3" id="major2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><b>单位性质</b></td>
+    <td colspan="6" id="unitProperty">&nbsp;</td>
+    <td><b>是否为院士</b></td>
+    <td id="isAcademician">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><b>技术职称</b></td>
+    <td colspan="3" id="expertTitle">&nbsp;</td>
+    <td><b>担任职务</b></td>
+    <td colspan="2" id="expertJob">&nbsp;</td>
+    <td><b>在职情况</b></td>
+    <td id="onDuty">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><b>移动电话</b></td>
+    <td colspan="3" id="mobile">&nbsp;</td>
+    <td><b>传真号码</b></td>
+    <td colspan="2" id="fax">&nbsp;</td>
+    <td><b>电子邮件</b></td>
+    <td id="email">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><b>通信地址</b></td>
+    <td colspan="6" id="address">&nbsp;</td>
+    <td><b>邮政编码</b></td>
+    <td id="postcode">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><b>研究领域</b></td>
+    <td colspan="4" id="researchField">&nbsp;</td>
+    <td><b>研究方向</b></td>
+    <td colspan="3" id="researchDirection">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><b>熟悉语种</b></td>
+    <td colspan="4" id="language">&nbsp;</td>
+    <td><b>熟悉程度</b></td>
+    <td colspan="3" id="proficiency">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><b>专业简历</b></td>
+    <td colspan="8" id="resume">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><b>推荐单位名称</b></td>
+    <td colspan="4" id="recommendUnit">&nbsp;</td>
+    <td><b>工作单位名称</b></td>
+    <td colspan="3" id="workUnit">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><b>备注</b></td>
+    <td colspan="8" id="remark">&nbsp;</td>
+  </tr>
+</table>
+<div width="80%" align="center">注：1. 信息填写须做到完整正确；2. 退休专家，请填写退休前工作单位、单位职务等；3. “研究领域”和“研究方向”
+请按照165号文的技术领域和产品类别从下拉框中分别选取；4. 普通公民填写身份证号码，军官填写军官证号。</div>
+<div align="center"><button id="btn_close" style="font-size:20pt;background:green">&nbsp;关闭</button></div>
+<script src="${rc.contextPath}/js/sys/expertDetail.js"></script>
+</body>
+</html>

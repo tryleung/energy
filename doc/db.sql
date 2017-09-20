@@ -108,6 +108,7 @@ INSERT INTO `sys_menu` VALUES (1, 0, '系统管理', NULL, NULL, 0, 'fa fa-cog',
 INSERT INTO `sys_menu` VALUES (2, 1, '管理员列表', 'sys/user.html', NULL, 1, 'fa fa-user', 1);
 INSERT INTO `sys_menu` VALUES (3, 1, '角色管理', 'sys/role.html', NULL, 1, 'fa fa-user-secret', 2);
 INSERT INTO `sys_menu` VALUES (4, 1, '菜单管理', 'sys/menu.html', NULL, 1, 'fa fa-th-list', 3);
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('5', '1', '参数管理', 'sys/config.html', 'sys:config:list,sys:config:info,sys:config:save,sys:config:update,sys:config:delete', '1', 'fa fa-sun-o', '6');
 INSERT INTO `sys_menu` VALUES (15, 2, '查看', NULL, 'sys:user:list,sys:user:info', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (16, 2, '新增', NULL, 'sys:user:save,sys:role:select', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (17, 2, '修改', NULL, 'sys:user:update,sys:role:select', 2, NULL, 0);
@@ -132,6 +133,8 @@ INSERT INTO `sys_menu` VALUES (35, 33, '已评审', 'http://test', NULL, 1, 'fa 
 INSERT INTO `sys_menu` VALUES (36, 0, '统计查询', NULL, NULL, 0, 'fa fa-percent', 4);
 INSERT INTO `sys_menu` VALUES (37, 36, '项目统计', 'http://test', NULL, 1, 'fa fa-object-group', 0);
 INSERT INTO `sys_menu` VALUES (38, 36, '统计页面', 'http://test', NULL, 1, 'fa fa-sitemap', 0);
+INSERT INTO `sys_menu` VALUES (39, 28, '新增', NULL, 'sys:expert:save', 2, NULL, 0);
+INSERT INTO `sys_menu` VALUES (40, 28, '查看', NULL, 'sys:expert:list,sys:expert:info', 2, NULL, 0);
 
 INSERT INTO `sys_config` (`key`, `value`, `status`, `remark`) VALUES ('CLOUD_STORAGE_CONFIG_KEY', '{\"aliyunAccessKeyId\":\"\",\"aliyunAccessKeySecret\":\"\",\"aliyunBucketName\":\"\",\"aliyunDomain\":\"\",\"aliyunEndPoint\":\"\",\"aliyunPrefix\":\"\",\"qcloudBucketName\":\"\",\"qcloudDomain\":\"\",\"qcloudPrefix\":\"\",\"qcloudSecretId\":\"\",\"qcloudSecretKey\":\"\",\"qiniuAccessKey\":\"NrgMfABZxWLo5B-YYSjoE8-AZ1EISdi1Z3ubLOeZ\",\"qiniuBucketName\":\"ios-app\",\"qiniuDomain\":\"http://7xqbwh.dl1.z0.glb.clouddn.com\",\"qiniuPrefix\":\"upload\",\"qiniuSecretKey\":\"uIwJHevMRWU0VLxFvgy0tAcOdGqasdtVlJkdy6vV\",\"type\":1}', '0', '云存储配置信息');
 
@@ -174,6 +177,7 @@ CREATE TABLE `sys_expert` (
   `gender` char(1) NOT NULL COMMENT '性别,1男,0女',
   `nation` varchar(10) NOT NULL COMMENT '民族',
   `party` varchar(10) NOT NULL COMMENT '党派',
+  `photoPath` varchar(64) COMMENT '专家照片路径',
   `idNum` varchar(20) NOT NULL COMMENT '身份证号',
   `birth` varchar(10) COMMENT '出生日期',
   `highestEdu` varchar(10) COMMENT '最高学历',

@@ -5,40 +5,44 @@
 #parse("sys/header.html")
 </head>
 <body>
+
 <div id="rrapp" v-cloak>
 	<div v-show="showList">
 		<div class="grid-btn">
 		<!-- 查询区域 -->
 		<div>
-                           姓&nbsp;&nbsp;&nbsp;&nbsp;名：<input type="text" v-model="q.name" placeholder="专家姓名"/>
-                           最高学历：<select v-model="q.highestEdu" style="padding:5px;">
+                           姓&nbsp;&nbsp;&nbsp;&nbsp;名：<input id="input_name" type="text" placeholder="专家姓名"/>
+                           最高学历：<select id="select_highestEdu" style="padding:5px;">
                           <option value ="专科">专科</option>
                           <option value ="本科">本科</option>
                           <option value="硕士研究生">硕士研究生</option>
                           <option value="博士研究生">博士研究生</option>
                           <option value="其他">其他</option>
                            </select>
-                           研究领域：<select v-model="q.researchField" style="padding:5px;">
+                           研究领域：<select id="select_researchField" style="padding:5px;">
                           <option value ="煤炭绿色智能采掘">煤炭绿色智能采掘</option>
                           <option value ="深水油气勘探开发">深水油气勘探开发</option>
                           <option value="页岩油气勘探开采">页岩油气勘探开采</option>
                           <option value="煤层气开发利用">煤层气开发利用</option>
                           <option value="油气储运和运输">油气储运和运输</option>
                            </select>
-                            研究方向：<select v-model="q.researchDirection" style="padding:5px;">
+                            研究方向：<select id="select_researchDirection" style="padding:5px;">
                           <option value ="煤炭智能地质钻探装备">煤炭智能地质钻探装备</option>
                           <option value ="煤炭高效绿色开采装备">煤炭高效绿色开采装备</option>
                           <option value="煤矿智能开采洗选装备">煤矿智能开采洗选装备</option>
                           <option value="煤矿灾害防治和应急救援装备">煤矿灾害防治和应急救援装备</option>
                            </select>
-            </div>
-            <div style="margin-top:10px;margin-bottom:10px;text-align:center;">
-            <a class="btn btn-default" style="margin:5px;" @click="query">查询</a>
-            <a id="dd" class="btn btn-default" style="margin:5px;" @click="reset">重置</a>
-            <div>
+        </div>
+        <div style="margin-top:10px;margin-bottom:10px;text-align:center;">
+            <a id="query_btn" class="btn btn-default" style="margin:5px;">查询</a>
+            <a id="reset_btn" class="btn btn-default" style="margin:5px;" >重置</a>
+        </div>
             <!-- 查询区域 -->
             #if($shiro.hasPermission("sys:expert:save"))
             <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+            #end
+            #if($shiro.hasPermission("sys:expert:list"))
+            <a class="btn btn-primary" @click="show"><i class="fa fa-plus"></i>&nbsp;查看</a>
             #end
             #if($shiro.hasPermission("sys:expert:update"))
             <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
@@ -51,7 +55,7 @@
 	    <div id="jqGridPager"></div>
     </div>
     
-    <div v-show="!showList" class="panel panel-default">
+    <!-- <div v-show="!showList" class="panel panel-default">
 		<div class="panel-heading">{{title}}</div>
 		<form class="form-horizontal">
 											<div class="form-group">
@@ -253,6 +257,210 @@
 			</div>
 		</form>
 	</div>
+</div> -->
+
+<div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+                                            <div class="form-group">
+                <div class="col-sm-2 control-label">专家姓名</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.name" placeholder="专家姓名"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">性别</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.gender" placeholder="性别"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">民族</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.nation" placeholder="民族"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">党派</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.party" placeholder="党派"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">身份证号</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.idnum" placeholder="身份证号"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">出生日期</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.birth" placeholder="出生日期"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">最高学历</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.highestedu" placeholder="最高学历"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">毕业院校</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.graduateschool" placeholder="毕业院校"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">所学专业</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.major1" placeholder="所学专业"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">从事专业</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.major2" placeholder="从事专业"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">单位性质</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.unitproperty" placeholder="单位性质"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">是否院士，1是，0否</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.isacademician" placeholder="是否院士，1是，0否"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">技术职称</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.experttitle" placeholder="技术职称"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">担任职务</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.expertjob" placeholder="担任职务"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">在职情况,1在职，0离职</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.onduty" placeholder="在职情况,1在职，0离职"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">移动电话</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.mobile" placeholder="移动电话"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">传真</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.fax" placeholder="传真"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">电子邮件</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.email" placeholder="电子邮件"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">通信地址</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.address" placeholder="通信地址"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">邮政编码</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.postcode" placeholder="邮政编码"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">研究领域</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.researchfield" placeholder="研究领域"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">研究方向</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.researchdirection" placeholder="研究方向"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">熟悉语种</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.language" placeholder="熟悉语种"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">熟练程度</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.proficiency" placeholder="熟练程度"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">专业简历</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.resume" placeholder="专业简历"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">推荐单位名称</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.recommendunit" placeholder="推荐单位名称"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">工作单位名称</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.workunit" placeholder="工作单位名称"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">备注</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.remark" placeholder="备注"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">创建时间</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.createTime" placeholder="创建时间"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">创建者ID</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.createUserId" placeholder="创建者ID"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">修改时间</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.modifyTime" placeholder="修改时间"/>
+                </div>
+            </div>
+                                    <div class="form-group">
+                <div class="col-sm-2 control-label">修改者ID</div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="sysExpert.modifyUserId" placeholder="修改者ID"/>
+                </div>
+            </div>
+                            <div class="form-group">
+                <div class="col-sm-2 control-label"></div> 
+                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script src="${rc.contextPath}/js/sys/expert.js"></script>
