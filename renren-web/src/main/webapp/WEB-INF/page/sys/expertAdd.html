@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>专家信息</title>
+<script src="${rc.contextPath}/statics/libs/jquery.min.js"></script>
+<script src="${rc.contextPath}/statics/libs/birthday.js"></script>
+<script src="${rc.contextPath}/statics/libs/mydata.js"></script>
+<script src="${rc.contextPath}/statics/libs/vue.min.js"></script>
+<style type="text/css">
+<!--
+body,td,th {
+    font-size: 12pt;
+}
+-->
+</style>
+</head>
+<body>
+<h2 align="center">专家信息</h2>
+<div id="rrap">
+<form action="../sys/expert/save2" method="post" enctype="multipart/form-data">
+<table width="80%" border="1" align="center" cellpadding="0px" cellspacing="0">
+  <tr>
+    <td width="9%"><span style="color:red">*</span><b>姓名</b></td>
+    <td width="12%" id="name"><input name="name" type="text" style="height:50px;font-size:12pt"/></td>
+    <td width="12%"><b>性别</b></td>
+    <td width="6%" id="gender"><input type="radio" name="gender" style="vertical-align:middle;" value="1" checked="checked">男</input><input type="radio" name="gender" value="0" >女</input></td>
+    <td width="10%"><b>民族</b></td>
+    <td width="13%" id="nation" >
+            <select name="nation" style="padding:5px;">  
+			    <option value="1">汉族</option>  
+			    <option value="2">蒙古族</option>  
+			    <option value="3">回族</option>  
+			    <option value="4">藏族</option>  
+			    <option value="5">维吾尔族</option>  
+			    <option value="6">苗族</option>  
+			    <option value="7">彝族</option>  
+			    <option value="8">壮族</option>  
+			    <option value="9">布依族</option>  
+			    <option value="10">朝鲜族</option>  
+			    <option value="11">满族</option>  
+			    <option value="12">侗族</option>  
+			    <option value="13">瑶族</option>  
+			    <option value="14">白族</option>  
+			    <option value="15">土家族</option>  
+			    <option value="16">哈尼族</option>  
+			    <option value="17">哈萨克族</option>  
+			    <option value="18">傣族</option>  
+			    <option value="19">黎族</option>  
+			    <option value="20">傈僳族</option>  
+			    <option value="21">佤族</option>  
+			    <option value="22">畲族</option>  
+			    <option value="23">高山族</option>  
+			    <option value="24">拉祜族</option>  
+			    <option value="25">水族</option>  
+			    <option value="26">东乡族</option>  
+			    <option value="27">纳西族</option>  
+			    <option value="28">景颇族</option>  
+			    <option value="29">柯尔克孜族</option>  
+			    <option value="30">土族</option>  
+			    <option value="31">达斡尔族</option>  
+			    <option value="32">仫佬族</option>  
+			    <option value="33">羌族</option>  
+			    <option value="34">布朗族</option>  
+			    <option value="35">撒拉族</option>  
+			    <option value="36">毛南族</option>  
+			    <option value="37">仡佬族</option>  
+			    <option value="38">锡伯族</option>  
+			    <option value="39">阿昌族</option>  
+			    <option value="40">普米族</option>  
+			    <option value="41">塔吉克族</option>  
+			    <option value="42">怒族</option>  
+			    <option value="43">乌孜别克族</option>  
+			    <option value="44">俄罗斯族</option>  
+			    <option value="45">鄂温克族</option>  
+			    <option value="46">德昂族</option>  
+			    <option value="47">保安族</option>  
+			    <option value="48">裕固族</option>  
+			    <option value="49">京族</option>  
+			    <option value="50">塔塔尔族</option>  
+			    <option value="51">独龙族</option>  
+			    <option value="52">鄂伦春族</option>  
+			    <option value="53">赫哲族</option>  
+			    <option value="54">门巴族</option>  
+			    <option value="55">珞巴族</option>  
+			    <option value="56">基诺族</option>  
+   </select>  
+    </td>
+    <td width="12%"><b>党派</b></td>
+    <td width="18%" id="party">
+        <input name="party" type="text" style="height:50px;width:100%;font-size:12pt"/>
+    </td>
+    <td width="17%" rowspan="4" id="photoPath">
+        <input name="photoPath" type="file" value="照片">
+    </td>
+  </tr>
+  <tr>
+    <td><span style="color:red">*</span><b>身份证号</b></td>
+    <td colspan="5" id="idNum"><input name="idNum" type="text" maxlength="18" style="height:50px;width:100%;font-size:12pt"/></td>
+    <td><b>出生年月</b></td>
+    <td id="birth">
+        <select name="year" id="sel_year"></select>年
+        <select name="month" id="sel_month"></select>月
+        <select name="day" id="sel_day"></select>日
+    </td>
+  </tr>
+  <tr>
+    <td><b>最高学历</b></td>
+    <td id="highestEdu">
+        <select name="highestEdu" id="select_highestEdu" style="padding:5px;">
+              <option value ="专科">专科</option>
+              <option value ="本科">本科</option>
+              <option value="硕士研究生">硕士研究生</option>
+              <option value="博士研究生">博士研究生</option>
+              <option value="其他">其他</option>
+        </select>
+    </td>
+    <td><b>毕业院校</b></td>
+    <td colspan="5" id="graduateSchool"><input name="graduateSchool" type="text" style="height:50px;width:100%;font-size:12pt"/></td>
+  </tr>
+  <tr>
+    <td><b>所学专业</b></td>
+    <td colspan="3" id="major1"><input name="major1" type="text" style="height:50px;width:100%;font-size:12pt"/></td>
+    <td><b>从事专业</b></td>
+    <td colspan="3" id="major2"><input name="major2" type="text" style="height:50px;width:100%;font-size:12pt"/></td>
+  </tr>
+  <tr>
+    <td><b>单位性质</b></td>
+    <td colspan="6" id="unitProperty">
+            <select name="unitProperty" style="padding:5px;">
+            <option value ="">请选择</option>
+              <option value ="高等院校">高等院校</option>
+              <option value ="科研院所">科研院所</option>
+              <option value="政府机构">政府机构</option>
+              <option value="行业组织">行业组织</option>
+              <option value="企业">企业</option>
+              <option value="其他">其他</option>
+        </select>
+    </td>
+    <td><b>是否为院士</b></td>
+    <td id="isAcademician">
+        <select name="isAcademician" style="padding:5px;" v-model="sysExpert.isacademician">
+              <option value ="">请选择</option>
+              <option value ="科学院院士">科学院院士</option>
+              <option value ="工程院院士">工程院院士</option>
+        </select>
+    </td>
+  </tr>
+  <tr>
+    <td><b>技术职称</b></td>
+    <td colspan="3" id="expertTitle"><input name="expertTitle" type="text" style="height:50px;width:100%;font-size:12pt"/></td>
+    <td><b>担任职务</b></td>
+    <td colspan="2" id="expertJob"><input name="expertJob" type="text" style="height:50px;width:100%;font-size:12pt"/></td>
+    <td><b>在职情况</b></td>
+    <td id="onDuty">
+        <select name="onDuty" style="padding:5px;">
+              <option value ="1">在职</option>
+              <option value ="0">退休</option>
+        </select>
+    </td>
+  </tr>
+  <tr>
+    <td><b>移动电话</b></td>
+    <td colspan="3" id="mobile"><input name="mobile" type="text" maxlength="11" style="height:50px;width:100%;font-size:12pt"/></td>
+    <td><b>传真号码</b></td>
+    <td colspan="2" id="fax"><input name="fax" type="text" maxlength="11" style="height:50px;width:100%;font-size:12pt"/></td>
+    <td><b>电子邮件</b></td>
+    <td id="email"><input name="email" type="text" style="height:50px;width:100%;font-size:12pt"/></td>
+  </tr>
+  <tr>
+    <td><b>通信地址</b></td>
+    <td colspan="6" id="address"><input name="address" type="text" style="height:50px;width:100%;font-size:12pt"/></td>
+    <td><b>邮政编码</b></td>
+    <td id="postcode"><input name="postcode" type="text" maxlength="7" style="height:50px;width:100%;font-size:12pt"/></td>
+  </tr>
+  <tr>
+    <td><b>研究领域</b></td>
+    <td colspan="4">
+        <select name="researchField" style="padding:5px;">
+              <option value ="">请选择</option>
+        </select>
+    </td>
+    <td><b>研究方向</b></td>
+    <td colspan="3">
+        <select name="researchDirection" style="padding:5px;">
+              <option value ="">请选择</option>
+        </select>
+    </td>
+  </tr>
+  <tr>
+    <td><b>熟悉语种</b></td>
+    <td colspan="4" id="language"><input name="language" type="text" style="height:50px;width:100%;font-size:12pt"/></td>
+    <td><b>熟悉程度</b></td>
+    <td colspan="3" >
+        <select name="proficiency" style="padding:5px;">
+              <option value ="">请选择</option>
+              <option value ="精通">精通</option>
+              <option value ="熟悉">熟悉</option>
+              <option value ="良好">良好</option>
+              <option value ="一般">一般</option>
+        </select>
+    </td>
+  </tr>
+  <tr>
+    <td><b>专业简历</b></td>
+    <td colspan="8" id="resume">
+        <textarea name="resume" rows="3"  style="height:200px;width:100%;font-size:12pt" ></textarea>
+    </td>
+  </tr>
+  <tr>
+    <td><b>推荐单位名称</b></td>
+    <td colspan="4" id="recommendUnit"><input name="recommendUnit" type="text" style="height:50px;width:100%;font-size:12pt"/></td>
+    <td><b>工作单位名称</b></td>
+    <td colspan="3" id="workUnit"><input name="workUnit" type="text" style="height:50px;width:100%;font-size:12pt"/></td>
+  </tr>
+  <tr>
+    <td><b>备注</b></td>
+    <td colspan="8" id="remark"><input name="remark" type="text" style="height:50px;width:100%;font-size:12pt"/></td>
+  </tr>
+</table>
+<div width="80%" align="center">注：1. 信息填写须做到完整正确；2. 退休专家，请填写退休前工作单位、单位职务等；3. “研究领域”和“研究方向”
+请按照165号文的技术领域和产品类别从下拉框中分别选取；4. 普通公民填写身份证号码，军官填写军官证号。</div>
+<div align="center">
+<button id="btn_save" style="font-size:20pt;background:green">&nbsp;保存</button>
+<button id="btn_close" style="font-size:20pt;background:green">&nbsp;关闭</button></div>
+</form>
+</div>
+<script>  
+$(function () {
+    $.ms_DatePicker({
+            YearSelector: ".sel_year",
+            MonthSelector: ".sel_month",
+            DaySelector: ".sel_day"
+    });
+    $.ms_DatePicker();
+    
+    //研究领域 研究方向联动
+    for (var key in researchData)
+    {
+        $("#researchField").append("<option value='"+key+"'>"+key+"</option>");
+    }
+    $("#researchField").change(function(){
+        var now_researchField=$(this).val();
+        $("#researchDirection").html('<option value="">请选择研究方向</option>');
+        for(var k in researchData[now_researchField])
+        {
+            var now_researchDirection=researchData[now_researchField][k];
+            $("#researchDirection").append('<option value="'+now_researchDirection+'">'+now_researchDirection+'</option>');
+        }
+    });
+}); 
+</script>
+<script src="${rc.contextPath}/js/sys/expertAdd.js"></script>
+</body>
+</html>

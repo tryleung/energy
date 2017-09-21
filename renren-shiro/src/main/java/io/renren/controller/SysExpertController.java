@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.renren.entity.SysConfigEntity;
 import io.renren.entity.SysExpertEntity;
@@ -119,6 +121,13 @@ public class SysExpertController {
 		
 		return R.ok();
 	}
+	
+	@RequestMapping("/save2")
+    public R save2(HttpServletRequest request, MultipartFile photoPath){
+	    logger.info("~~~~~~~~~~save2=" + request.getParameter("name"));
+	    logger.info(photoPath.getSize());
+        return R.ok();
+    }
 	
 	/**
 	 * 修改

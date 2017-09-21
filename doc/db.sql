@@ -185,7 +185,7 @@ CREATE TABLE `sys_expert` (
   `major1` varchar(20) COMMENT '所学专业',
   `major2` varchar(20) COMMENT '从事专业',
   `unitProperty` varchar(10) COMMENT '单位性质',
-  `isAcademician` char(1) COMMENT '是否院士，1是，0否',
+  `isAcademician` char(20) COMMENT '科学院院士，工程院院士',
   `expertTitle` varchar(10) COMMENT '技术职称',
   `expertJob` varchar(10) COMMENT '担任职务',
   `onDuty` char(1) COMMENT '在职情况,1在职，0离职',

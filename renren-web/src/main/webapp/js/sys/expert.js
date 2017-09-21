@@ -161,6 +161,9 @@ var vm = new Vue({
 				return ;
 			}
 		    window.open("../sys/expertDetail.html?expertId=" + expertId);
+		},
+		addExpert: function() {
+			window.open("../sys/expertAdd.html");
 		}
 	}
 });

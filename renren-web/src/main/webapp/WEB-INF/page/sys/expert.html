@@ -39,7 +39,8 @@
         </div>
             <!-- 查询区域 -->
             #if($shiro.hasPermission("sys:expert:save"))
-            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+            <!-- <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a> -->
+            <a class="btn btn-primary" @click="addExpert"><i class="fa fa-plus"></i>&nbsp;新增</a>
             #end
             #if($shiro.hasPermission("sys:expert:list"))
             <a class="btn btn-primary" @click="show"><i class="fa fa-plus"></i>&nbsp;查看</a>
