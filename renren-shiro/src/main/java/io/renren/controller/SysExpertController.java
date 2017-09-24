@@ -4,6 +4,7 @@ package io.renren.controller;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,12 +30,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import io.renren.entity.SysConfigEntity;
 import io.renren.entity.SysExpertEntity;
+import io.renren.entity.SysUserEntity;
 import io.renren.service.SysConfigService;
 import io.renren.service.SysExpertService;
+import io.renren.service.SysUserService;
 import io.renren.utils.ExcelParser;
 import io.renren.utils.PageUtils;
 import io.renren.utils.Query;
 import io.renren.utils.R;
+import io.renren.utils.ShiroUtils;
 import io.renren.utils.Tools;
 
 
@@ -53,6 +59,8 @@ public class SysExpertController {
 	private SysExpertService sysExpertService;
 	@Autowired
 	private SysConfigService sysConfigService;
+	@Autowired
+	private SysUserService sysUserService;
 	
 	/**
 	 * 列表
@@ -133,6 +141,7 @@ public class SysExpertController {
 	 */
 	@RequestMapping("/upload")
     @RequiresPermissions("sys:expert:save")
+	@Transactional
     public R upload(@RequestParam MultipartFile[] file){
 	    logger.info(">>>上传专家excel文件数："+ file == null ? 0 : file.length);
 	    if(file != null && file.length > 0) {
@@ -167,6 +176,9 @@ public class SysExpertController {
 	                return R.error("您上传的"+fileName+"文件数据不对，请您修改完毕后重新上传文件。");
 	            }
 	            sysExpertService.save(expertEntity);
+	            //在user表中为专家创建用户
+	            SysUserEntity user = createUserForExpert(expertEntity);
+	            sysUserService.save(user);
 	            //保存图片
 	            Map<String,Object> photoConfig = new HashMap<String,Object>();
 	            photoConfig.put("key", "expert_photo_dir");
@@ -212,6 +224,10 @@ public class SysExpertController {
 	        return R.error("专家姓名和身份证号为空");
 	    }
 	    sysExpertService.save(sysExpert);
+	    //在user表中为专家创建用户
+        SysUserEntity user = createUserForExpert(sysExpert);
+        sysUserService.save(user);
+        
 	    if(photoPath != null && photoPath.getSize()>0) {
 	        String photoFileName = String.valueOf(sysExpert.getExpertId());
 	        Map<String,Object> configQueryParam = new HashMap<String,Object>();
@@ -252,6 +268,20 @@ public class SysExpertController {
 		sysExpertService.deleteBatch(expertIds);
 		
 		return R.ok();
+	}
+	
+	private SysUserEntity createUserForExpert(SysExpertEntity expert) {
+	    String mobile = Tools.delNull(expert.getMobile());
+        SysUserEntity user = new SysUserEntity();
+        user.setUsername(mobile);
+        user.setPassword(mobile.substring(mobile.length() - 4));
+        user.setMobile(mobile);
+        user.setStatus(1);
+        user.setCreateUserId(ShiroUtils.getUserId());
+        user.setExpertId(expert.getExpertId());
+        user.setCreateTime(new Date());
+        logger.info(">>>>专家"+expert.getExpertId()+"的user信息"+user.toString());
+        return user;
 	}
 	
 }

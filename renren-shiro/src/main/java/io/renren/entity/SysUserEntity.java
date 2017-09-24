@@ -2,6 +2,8 @@ package io.renren.entity;
 
 import io.renren.validator.group.AddGroup;
 import io.renren.validator.group.UpdateGroup;
+
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -53,6 +55,8 @@ public class SysUserEntity implements Serializable {
 	 */
 	private Integer status;
 	
+	private Long expertId;
+	
 	/**
 	 * 角色ID列表
 	 */
@@ -68,7 +72,15 @@ public class SysUserEntity implements Serializable {
 	 */
 	private Date createTime;
 
-	/**
+	public Long getExpertId() {
+        return expertId;
+    }
+
+    public void setExpertId(Long expertId) {
+        this.expertId = expertId;
+    }
+
+    /**
 	 * 设置：
 	 * @param userId 
 	 */
@@ -195,5 +207,8 @@ public class SysUserEntity implements Serializable {
 	public void setCreateUserId(Long createUserId) {
 		this.createUserId = createUserId;
 	}
-	
+	@Override
+	public String toString() {
+	    return ReflectionToStringBuilder.toString(this);
+	}
 }

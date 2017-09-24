@@ -132,6 +132,8 @@ public class ExcelParser {
     }
     
     public static void main(String[] args) throws InvalidFormatException, IOException {
-        expertParserXlsx("D:/a.xlsx");
+//        expertParserXlsx("D:/a.xlsx");
+        String mobile = "15626471261";
+        System.out.println("15626471261".substring(mobile.length() - 4));
     }
 }
