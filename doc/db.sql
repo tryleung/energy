@@ -137,7 +137,8 @@ INSERT INTO `sys_menu` VALUES (39, 28, '新增', NULL, 'sys:expert:save', 2, NUL
 INSERT INTO `sys_menu` VALUES (40, 28, '查看', NULL, 'sys:expert:list,sys:expert:info', 2, NULL, 0);
 
 INSERT INTO `sys_config` (`key`, `value`, `status`, `remark`) VALUES ('CLOUD_STORAGE_CONFIG_KEY', '{\"aliyunAccessKeyId\":\"\",\"aliyunAccessKeySecret\":\"\",\"aliyunBucketName\":\"\",\"aliyunDomain\":\"\",\"aliyunEndPoint\":\"\",\"aliyunPrefix\":\"\",\"qcloudBucketName\":\"\",\"qcloudDomain\":\"\",\"qcloudPrefix\":\"\",\"qcloudSecretId\":\"\",\"qcloudSecretKey\":\"\",\"qiniuAccessKey\":\"NrgMfABZxWLo5B-YYSjoE8-AZ1EISdi1Z3ubLOeZ\",\"qiniuBucketName\":\"ios-app\",\"qiniuDomain\":\"http://7xqbwh.dl1.z0.glb.clouddn.com\",\"qiniuPrefix\":\"upload\",\"qiniuSecretKey\":\"uIwJHevMRWU0VLxFvgy0tAcOdGqasdtVlJkdy6vV\",\"type\":1}', '0', '云存储配置信息');
-
+INSERT INTO `sys_config` (`key`, `value`, `status`, `remark`) VALUES ('expert_photo_dir','D:\expert_photo_dir','1','专家照片目录');
+INSERT INTO `sys_config` (`key`, `value`, `status`, `remark`) VALUES ('expert_excel_dir','D:\expert_excel_dir','1','专家信息excel文件目录');
 
 
 

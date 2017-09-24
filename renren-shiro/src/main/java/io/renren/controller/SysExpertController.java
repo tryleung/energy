@@ -13,7 +13,9 @@ import javax.imageio.ImageReader;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,9 +29,11 @@ import io.renren.entity.SysConfigEntity;
 import io.renren.entity.SysExpertEntity;
 import io.renren.service.SysConfigService;
 import io.renren.service.SysExpertService;
+import io.renren.utils.ExcelParser;
 import io.renren.utils.PageUtils;
 import io.renren.utils.Query;
 import io.renren.utils.R;
+import io.renren.utils.Tools;
 
 
 
@@ -122,11 +126,110 @@ public class SysExpertController {
 		return R.ok();
 	}
 	
-	@RequestMapping("/save2")
-    public R save2(HttpServletRequest request, MultipartFile photoPath){
-	    logger.info("~~~~~~~~~~save2=" + request.getParameter("name"));
-	    logger.info(photoPath.getSize());
+	/**
+	 * excel上传
+	 * @param sysExpert
+	 * @return
+	 */
+	@RequestMapping("/upload")
+    @RequiresPermissions("sys:expert:save")
+    public R upload(@RequestParam MultipartFile[] file){
+	    logger.info(">>>上传专家excel文件数："+ file == null ? 0 : file.length);
+	    if(file != null && file.length > 0) {
+	        Map<String,Object> configQueryParam = new HashMap<String,Object>();
+	        configQueryParam.put("key", "expert_excel_dir");
+	        List<SysConfigEntity> configList = sysConfigService.queryList(configQueryParam);
+	        String excelDir = configList.get(0).getValue();
+	        File dir = new File(excelDir);
+	        if(!dir.exists()) {
+	            dir.mkdirs();
+	        }
+	        for(MultipartFile f : file) {
+	            String fileName = f.getOriginalFilename();
+	            logger.info(">>>>文件"+ fileName +"写入磁盘,begin");
+	            String savedPath = excelDir + File.separator + Tools.getTimeStamp() + fileName;
+	            try {
+                    f.transferTo(new File(savedPath));
+                } catch (Exception e) {
+                    logger.error("保存excel文件失败," + fileName,e);
+                }
+	            logger.info(">>>>保存文件"+ fileName +",end");
+	            SysExpertEntity expertEntity = null;
+	            try {
+	                expertEntity = ExcelParser.expertParserXlsx(savedPath);
+                } catch (InvalidFormatException e) {
+                    logger.error("excel解析错误," + fileName, e);
+                    return R.error("您上传的"+fileName+"文件格式不对，请您修改完毕后重新上传文件。");
+                } catch (IOException e) {
+                    
+                }
+	            if(expertEntity == null) {
+	                return R.error("您上传的"+fileName+"文件数据不对，请您修改完毕后重新上传文件。");
+	            }
+	            sysExpertService.save(expertEntity);
+	            //保存图片
+	            Map<String,Object> photoConfig = new HashMap<String,Object>();
+	            photoConfig.put("key", "expert_photo_dir");
+	            List<SysConfigEntity> photoConfigList = sysConfigService.queryList(photoConfig);
+	            String photoDir = photoConfigList.get(0).getValue();
+	            try {
+                    ExcelParser.expertParserXlsxPhoto(savedPath, String.valueOf(expertEntity.getExpertId()), photoDir);
+                } catch (InvalidFormatException e) {
+                    logger.error("excel格式错误");
+                    return R.error("excel格式错误");
+                } catch (IOException e) {
+                    logger.error("文件读写错误");
+                    return R.error("文件读写错误");
+                }
+	        }
+	        return R.ok().put("count", file.length);
+	    }
         return R.ok();
+    }
+	
+	@RequestMapping("/save2")
+    public R save2(HttpServletRequest request, MultipartFile photoPath, SysExpertEntity sysExpert){
+	    String year = Tools.delNull(request.getParameter("year"));
+	    String month = Tools.delNull(request.getParameter("month"));
+	    String day = Tools.delNull(request.getParameter("day"));
+	    sysExpert.setBirth(year + month + day);
+	    logger.info(">>>>保存专家，请求参数"+sysExpert.toString()+", 图片大小=" + photoPath.getSize());
+	    if(photoPath != null && photoPath.getSize() > 0) {
+	        BufferedImage img = null;
+	        try {
+	            img = ImageIO.read(photoPath.getInputStream());
+	            if(img.getWidth() > 200) {
+	                return R.error("图片宽度不能大于200");
+	            }
+	            if(img.getHeight() > 300) {
+	                return R.error("图片高度不能大于300");
+	            }
+	        } catch (IOException e1) {
+	            logger.error("读取图片出错", e1);
+	        }
+	    }
+	    if(StringUtils.isBlank(sysExpert.getName()) && StringUtils.isBlank(sysExpert.getIdnum())) {
+	        return R.error("专家姓名和身份证号为空");
+	    }
+	    sysExpertService.save(sysExpert);
+	    if(photoPath != null && photoPath.getSize()>0) {
+	        String photoFileName = String.valueOf(sysExpert.getExpertId());
+	        Map<String,Object> configQueryParam = new HashMap<String,Object>();
+	        configQueryParam.put("key", "expert_photo_dir");
+	        List<SysConfigEntity> configList = sysConfigService.queryList(configQueryParam);
+	        String photoDir = configList.get(0).getValue();
+	        File dir = new File(photoDir);
+            if(!dir.exists()) {
+                dir.mkdirs();
+            }
+	        File file = new File(photoDir + File.separator + photoFileName +".jpg");
+	        try {
+	            photoPath.transferTo(file);
+	        } catch (Exception e) {
+	            logger.error("保存图片失败",e);
+	        }
+	    }
+        return R.ok("专家信息保存成功");
     }
 	
 	/**

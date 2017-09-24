@@ -2,7 +2,8 @@ $(function () {
     $("#jqGrid").jqGrid({
         url: '../sys/expert/list',
         datatype: "json",
-        colModel: [			
+        colModel: [	
+            { label: '索引', name:'expertId', index: 'expertId', width: 30},
 			{ label: '姓名', name: 'name', index: 'name', width: 60 }, 	
 			{ label: '技术职称', name: 'experttitle', index: 'expertTitle', width: 80 }, 
 			{ label: '最高学历', name: 'highestedu', index: 'highestEdu', width: 80 }, 
@@ -31,7 +32,7 @@ $(function () {
         height: 385,
         rowNum: 10,
 		rowList : [10,30,50],
-        rownumbers: true, 
+        rownumbers: false, 
         rownumWidth: 25, 
         autowidth:true,
         multiselect: true,
@@ -164,6 +165,10 @@ var vm = new Vue({
 		},
 		addExpert: function() {
 			window.open("../sys/expertAdd.html");
+		},
+		importExcel: function() {
+			window.open("../sys/excelUpload.html",'','height=100,width=400,top=400,left=400,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+//			window.open("../sys/excelUpload.html");
 		}
 	}
 });

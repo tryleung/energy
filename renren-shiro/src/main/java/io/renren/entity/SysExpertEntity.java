@@ -4,6 +4,8 @@ package io.renren.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+
 
 /**
  * 专家信息表
@@ -485,5 +487,10 @@ public class SysExpertEntity implements Serializable {
 	 */
 	public Long getModifyUserId() {
 		return modifyUserId;
+	}
+	
+	@Override
+	public String toString() {
+	    return ReflectionToStringBuilder.toString(this);
 	}
 }
