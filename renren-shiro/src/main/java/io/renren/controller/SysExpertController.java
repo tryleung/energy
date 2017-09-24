@@ -175,7 +175,9 @@ public class SysExpertController {
 	            if(expertEntity == null) {
 	                return R.error("您上传的"+fileName+"文件数据不对，请您修改完毕后重新上传文件。");
 	            }
+	            logger.info("111111111=" + expertEntity.toString());
 	            sysExpertService.save(expertEntity);
+	            logger.info("222222222=" + expertEntity.toString());
 	            //在user表中为专家创建用户
 	            SysUserEntity user = createUserForExpert(expertEntity);
 	            sysUserService.save(user);

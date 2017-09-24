@@ -70,6 +70,7 @@
 			`mobile`, 
 			`status`, 
 			`create_user_id`,
+			`expert_id`,
 			`create_time`
 		)
 		values
@@ -81,6 +82,7 @@
 			#{mobile}, 
 			#{status}, 
 			#{createUserId},
+			#{expertId},
 			#{createTime}
 		)
 	</insert>
