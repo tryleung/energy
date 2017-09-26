@@ -44,6 +44,10 @@
 	<select id="queryObject" resultType="io.renren.entity.SysExpertEntity">
 		select * from sys_expert where expert_id = #{value}
 	</select>
+	
+	<select id="queryObjectByNameIdnum" parameterType="io.renren.entity.SysExpertEntity" resultType="io.renren.entity.SysExpertEntity">
+        select * from sys_expert where name = #{name} and idNum = #{idnum}
+    </select>
 
 	<select id="queryList" resultType="io.renren.entity.SysExpertEntity">
 		select t.*, (select status from sys_user where expert_id = t.expert_id ) as status from sys_expert t

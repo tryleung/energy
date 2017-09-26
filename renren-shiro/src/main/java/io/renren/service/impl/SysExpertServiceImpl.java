@@ -52,5 +52,10 @@ public class SysExpertServiceImpl implements SysExpertService {
 	public void deleteBatch(Long[] expertIds){
 		sysExpertDao.deleteBatch(expertIds);
 	}
+
+    @Override
+    public SysExpertEntity queryObjectByNameIdnum(SysExpertEntity sysExpert) {
+        return sysExpertDao.queryObjectByNameIdnum(sysExpert);
+    }
 	
 }

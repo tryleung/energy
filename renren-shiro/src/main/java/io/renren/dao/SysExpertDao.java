@@ -13,5 +13,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysExpertDao extends BaseDao<SysExpertEntity> {
-	
+    SysExpertEntity queryObjectByNameIdnum(SysExpertEntity sysExpert);
 }

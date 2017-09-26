@@ -183,7 +183,15 @@ public class SysExpertController {
 	            if(expertEntity == null) {
 	                return R.error("您上传的"+fileName+"文件数据不对，请您修改完毕后重新上传文件。");
 	            }
-	            sysExpertService.save(expertEntity);
+	          //查询专家是否重复 如重复则更新 否则保存
+	            SysExpertEntity sysExpertObj = sysExpertService.queryObjectByNameIdnum(expertEntity);
+	            if(sysExpertObj != null) {
+	                logger.info(">>>>专家信息已存在，更新专家数据");
+	                expertEntity.setExpertId(sysExpertObj.getExpertId());
+	                sysExpertService.update(expertEntity);
+	            } else {
+	                sysExpertService.save(expertEntity);
+	            }
 	            //在user表中为专家创建用户
 	            SysUserEntity user = createUserForExpert(expertEntity);
 	            sysUserService.save(user);
@@ -242,7 +250,15 @@ public class SysExpertController {
 	    if(StringUtils.isBlank(sysExpert.getName()) && StringUtils.isBlank(sysExpert.getIdnum())) {
 	        return R.error("专家姓名和身份证号为空");
 	    }
-	    sysExpertService.save(sysExpert);
+	    //查询专家是否重复 如重复则更新 否则保存
+	    SysExpertEntity sysExpertObj = sysExpertService.queryObjectByNameIdnum(sysExpert);
+	    if(sysExpertObj != null) {
+	        logger.info(">>>>专家信息已存在，更新专家数据");
+	        sysExpert.setExpertId(sysExpertObj.getExpertId());
+	        sysExpertService.update(sysExpert);
+	    } else {
+	        sysExpertService.save(sysExpert);
+	    }
 	    //在user表中为专家创建用户
         SysUserEntity user = createUserForExpert(sysExpert);
         sysUserService.save(user);

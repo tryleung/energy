@@ -17,6 +17,8 @@ public interface SysExpertService {
 	
 	SysExpertEntity queryObject(Long expertId);
 	
+	SysExpertEntity queryObjectByNameIdnum(SysExpertEntity sysExpert);
+	
 	List<SysExpertEntity> queryList(Map<String, Object> map);
 	
 	int queryTotal(Map<String, Object> map);
