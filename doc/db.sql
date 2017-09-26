@@ -136,6 +136,14 @@ INSERT INTO `sys_menu` VALUES (38, 36, '统计页面', 'http://test', NULL, 1, '
 INSERT INTO `sys_menu` VALUES (39, 28, '新增', NULL, 'sys:expert:save', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (40, 28, '查看', NULL, 'sys:expert:list,sys:expert:info', 2, NULL, 0);
 
+--创建专家角色
+INSERT INTO `sys_role` VALUES (1,'专家','专家用户',1,'2017-09-26 19:23:36');
+--给专家角色访问评审管理、待评审、已评审菜单权限
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (1, 1, 33);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (2, 1, 34);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (3, 1, 35);
+
+
 INSERT INTO `sys_config` (`key`, `value`, `status`, `remark`) VALUES ('CLOUD_STORAGE_CONFIG_KEY', '{\"aliyunAccessKeyId\":\"\",\"aliyunAccessKeySecret\":\"\",\"aliyunBucketName\":\"\",\"aliyunDomain\":\"\",\"aliyunEndPoint\":\"\",\"aliyunPrefix\":\"\",\"qcloudBucketName\":\"\",\"qcloudDomain\":\"\",\"qcloudPrefix\":\"\",\"qcloudSecretId\":\"\",\"qcloudSecretKey\":\"\",\"qiniuAccessKey\":\"NrgMfABZxWLo5B-YYSjoE8-AZ1EISdi1Z3ubLOeZ\",\"qiniuBucketName\":\"ios-app\",\"qiniuDomain\":\"http://7xqbwh.dl1.z0.glb.clouddn.com\",\"qiniuPrefix\":\"upload\",\"qiniuSecretKey\":\"uIwJHevMRWU0VLxFvgy0tAcOdGqasdtVlJkdy6vV\",\"type\":1}', '0', '云存储配置信息');
 INSERT INTO `sys_config` (`key`, `value`, `status`, `remark`) VALUES ('expert_photo_dir','D:\expert_photo_dir','1','专家照片目录');
 INSERT INTO `sys_config` (`key`, `value`, `status`, `remark`) VALUES ('expert_excel_dir','D:\expert_excel_dir','1','专家信息excel文件目录');

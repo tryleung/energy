@@ -4,6 +4,7 @@ package io.renren.controller;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,9 +31,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import io.renren.entity.SysConfigEntity;
 import io.renren.entity.SysExpertEntity;
+import io.renren.entity.SysRoleEntity;
 import io.renren.entity.SysUserEntity;
 import io.renren.service.SysConfigService;
 import io.renren.service.SysExpertService;
+import io.renren.service.SysRoleService;
+import io.renren.service.SysUserRoleService;
 import io.renren.service.SysUserService;
 import io.renren.utils.ExcelParser;
 import io.renren.utils.PageUtils;
@@ -61,6 +65,10 @@ public class SysExpertController {
 	private SysConfigService sysConfigService;
 	@Autowired
 	private SysUserService sysUserService;
+	@Autowired
+	private SysUserRoleService sysUserRoleService;
+	@Autowired
+	private SysRoleService sysRoleService;
 	
 	/**
 	 * 列表
@@ -175,12 +183,21 @@ public class SysExpertController {
 	            if(expertEntity == null) {
 	                return R.error("您上传的"+fileName+"文件数据不对，请您修改完毕后重新上传文件。");
 	            }
-	            logger.info("111111111=" + expertEntity.toString());
 	            sysExpertService.save(expertEntity);
-	            logger.info("222222222=" + expertEntity.toString());
 	            //在user表中为专家创建用户
 	            SysUserEntity user = createUserForExpert(expertEntity);
 	            sysUserService.save(user);
+	            //加入专家角色表  先查询角色为“专家”的角色
+	            Map<String,Object> roleQueryParam = new HashMap<String,Object>();
+	            roleQueryParam.put("roleName", "专家");
+	            List<SysRoleEntity> roleEntities= sysRoleService.queryList(roleQueryParam);
+	            List<Long> roleIdList = new ArrayList<Long>();
+	            if(roleEntities != null && roleEntities.size() > 0) {
+	                for(SysRoleEntity entity : roleEntities) {
+	                    roleIdList.add(entity.getRoleId());
+	                }
+	            }
+	            sysUserRoleService.saveOrUpdate(user.getUserId(), roleIdList);
 	            //保存图片
 	            Map<String,Object> photoConfig = new HashMap<String,Object>();
 	            photoConfig.put("key", "expert_photo_dir");
@@ -229,7 +246,17 @@ public class SysExpertController {
 	    //在user表中为专家创建用户
         SysUserEntity user = createUserForExpert(sysExpert);
         sysUserService.save(user);
-        
+        //加入专家角色表  先查询角色为“专家”的角色
+        Map<String,Object> roleQueryParam = new HashMap<String,Object>();
+        roleQueryParam.put("roleName", "专家");
+        List<SysRoleEntity> roleEntities= sysRoleService.queryList(roleQueryParam);
+        List<Long> roleIdList = new ArrayList<Long>();
+        if(roleEntities != null && roleEntities.size() > 0) {
+            for(SysRoleEntity entity : roleEntities) {
+                roleIdList.add(entity.getRoleId());
+            }
+        }
+        sysUserRoleService.saveOrUpdate(user.getUserId(), roleIdList);
 	    if(photoPath != null && photoPath.getSize()>0) {
 	        String photoFileName = String.valueOf(sysExpert.getExpertId());
 	        Map<String,Object> configQueryParam = new HashMap<String,Object>();
