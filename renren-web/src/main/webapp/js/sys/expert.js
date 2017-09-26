@@ -66,6 +66,21 @@ $(function () {
     	$("#select_researchField").val("");
     	$("#select_researchDirection").val("");
     });
+    
+  //研究领域 研究方向联动
+    for (var key in researchData)
+    {
+        $("#select_researchField").append("<option value='"+key+"'>"+key+"</option>");
+    }
+    $("#select_researchField").change(function(){
+        var now_researchField=$(this).val();
+        $("#select_researchDirection").html('<option value="">请选择研究方向</option>');
+        for(var k in researchData[now_researchField])
+        {
+            var now_researchDirection=researchData[now_researchField][k];
+            $("#select_researchDirection").append('<option value="'+now_researchDirection+'">'+now_researchDirection+'</option>');
+        }
+    });
 });
 
 var vm = new Vue({
