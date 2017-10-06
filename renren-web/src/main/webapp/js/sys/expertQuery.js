@@ -19,12 +19,7 @@ $(function () {
 				}
 			} },
 			{ label: '操作列', name: 'status', index: 'status', width: 80 ,formatter: function(value, options, row){
-				var html = "<a id=\"show_btn\" class=\"abc\" href=\"#\" expertId=\""+row.expertId+"\">查看<a>&nbsp;&nbsp;<a href=\"#\" id=\"modify_btn\" expertId=\""+row.expertId+"\">修改</a>&nbsp;&nbsp;";
-				if(value == "0") {
-					return html + "<a href=\"#\" id=\"onoff\" oper=\"1\" expertId=\""+row.expertId+"\">启用<a>";
-				} else if(value == "1") {
-					return html += "<a href=\"#\" id=\"onoff\" oper=\"0\" expertId=\""+row.expertId+"\">禁用<a>";
-				}
+				return "&nbsp;<a id=\"show_btn\" class=\"abc\" href=\"#\" expertId=\""+row.expertId+"\">查看<a>";
 			}}
 			
         ],

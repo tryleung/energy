@@ -305,6 +305,67 @@ public class SysExpertController {
 	}
 	
 	/**
+	 * 启用禁用用户
+	 * @param sysExpert
+	 * @return
+	 */
+	@RequestMapping("/onoff")
+    public R onff(@RequestBody SysUserEntity user){
+	    logger.info(">>>>onoff req=" + user.toString());
+	    Map<String,Object> queryParam = new HashMap<String,Object>();
+	    queryParam.put("expertId", user.getExpertId());
+	    List<SysUserEntity> userList = sysUserService.queryList(queryParam);
+	    if(userList != null && !userList.isEmpty()) {
+	        SysUserEntity user0 = userList.get(0);
+	        user0.setStatus(user.getStatus());
+	        sysUserService.update(user0);
+	    }
+        return R.ok();
+    }
+	
+	@RequestMapping("/update2")
+    public R update2(HttpServletRequest request, MultipartFile photoPath,SysExpertEntity sysExpert){
+	    String year = Tools.delNull(request.getParameter("year"));
+        String month = Tools.delNull(request.getParameter("month"));
+        String day = Tools.delNull(request.getParameter("day"));
+        sysExpert.setBirth(year + month + day);
+        logger.info(">>>>保存专家，请求参数"+sysExpert.toString()+", 图片大小=" + photoPath.getSize());
+        if(photoPath != null && photoPath.getSize() > 0) {
+            BufferedImage img = null;
+            try {
+                img = ImageIO.read(photoPath.getInputStream());
+                if(img.getWidth() > 200) {
+                    return R.error("图片宽度不能大于200");
+                }
+                if(img.getHeight() > 300) {
+                    return R.error("图片高度不能大于300");
+                }
+            } catch (IOException e1) {
+                logger.error("读取图片出错", e1);
+            }
+        }
+        sysExpertService.update(sysExpert);
+        if(photoPath != null && photoPath.getSize()>0) {
+            String photoFileName = String.valueOf(sysExpert.getExpertId());
+            Map<String,Object> configQueryParam = new HashMap<String,Object>();
+            configQueryParam.put("key", "expert_photo_dir");
+            List<SysConfigEntity> configList = sysConfigService.queryList(configQueryParam);
+            String photoDir = configList.get(0).getValue();
+            File dir = new File(photoDir);
+            if(!dir.exists()) {
+                dir.mkdirs();
+            }
+            File file = new File(photoDir + File.separator + photoFileName +".jpg");
+            try {
+                photoPath.transferTo(file);
+            } catch (Exception e) {
+                logger.error("保存图片失败",e);
+            }
+        }
+        return R.ok();
+    }
+	
+	/**
 	 * 删除
 	 */
 	@RequestMapping("/delete")

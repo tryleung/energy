@@ -27,6 +27,13 @@
                             研究方向：<select id="select_researchDirection" style="padding:5px;">
                           <option value ="">请选择</option>
                            </select>
+                           <br/>
+                           归属协会：<select id="select_association" style="padding:5px;margin:5px;">
+                          <option value ="">请选择</option>
+                          <option value ="">中国电力企业联合会</option>
+                          <option value ="">中国电力设备管理协会</option>
+                          <option value ="">中国通用机械工业协会</option>
+                           </select>
         </div>
         <div style="margin-top:10px;margin-bottom:10px;text-align:center;">
             <a id="query_btn" class="btn btn-default" style="margin:5px;">查询</a>
@@ -35,10 +42,10 @@
             <!-- 查询区域 -->
             #if($shiro.hasPermission("sys:expert:save"))
             <!-- <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a> -->
-            <a class="btn btn-primary" @click="addExpert"><i class="fa fa-plus"></i>&nbsp;新增</a>
+            <!-- <a class="btn btn-primary" @click="addExpert"><i class="fa fa-plus"></i>&nbsp;新增</a> -->
             #end
             #if($shiro.hasPermission("sys:expert:save"))
-            <a class="btn btn-primary" @click="importExcel"><i class="fa fa-plus"></i>&nbsp;导入</a>
+            <!-- <a class="btn btn-primary" @click="importExcel"><i class="fa fa-plus"></i>&nbsp;导入</a> -->
             #end
             #if($shiro.hasPermission("sys:expert:list"))
             <!-- <a class="btn btn-primary" @click="show"><i class="fa fa-plus"></i>&nbsp;查看</a> -->
@@ -462,7 +469,7 @@
     </div>
 </div>
 
-<script src="${rc.contextPath}/js/sys/expert.js"></script>
+<script src="${rc.contextPath}/js/sys/expertQuery.js"></script>
 
 </body>
 </html>

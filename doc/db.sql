@@ -123,7 +123,7 @@ INSERT INTO `sys_menu` VALUES (25, 4, '修改', NULL, 'sys:menu:update,sys:menu:
 INSERT INTO `sys_menu` VALUES (26, 4, '删除', NULL, 'sys:menu:delete', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (27, 0, '专家管理', NULL, NULL, 0, 'fa fa-user', 1);
 INSERT INTO `sys_menu` VALUES (28, 27, '专家列表', 'http://test', 'sys:expert:list', 1, 'fa fa-user', 0);
-INSERT INTO `sys_menu` VALUES (29, 27, '专家查询', 'http://test', NULL, 1, 'fa fa-user', 0);
+INSERT INTO `sys_menu` VALUES (29, 27, '专家查询', 'sys/expertQuery.html', NULL, 1, 'fa fa-user', 0);
 INSERT INTO `sys_menu` VALUES (30, 0, '项目管理', NULL, NULL, 0, 'fa fa-suitcase', 2);
 INSERT INTO `sys_menu` VALUES (31, 30, '项目列表', 'http://test', NULL, 1, 'fa fa-list-ul', 0);
 INSERT INTO `sys_menu` VALUES (32, 30, '项目评审准备', 'http://test', NULL, 1, 'fa fa-hand-rock-o', 0);
@@ -142,6 +142,66 @@ INSERT INTO `sys_role` VALUES (1,'专家','专家用户',1,'2017-09-26 19:23:36'
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (1, 1, 33);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (2, 1, 34);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (3, 1, 35);
+
+--创建中国电力企业联合会专家角色
+INSERT INTO `sys_role` VALUES (2,'中国电力企业联合会_专家','中国电力企业联合会_专家',1,'2017-09-26 19:23:36');
+--给中国电力企业联合会专家角色访问评审管理、待评审、已评审菜单权限
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (4, 2, 33);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (5, 2, 34);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (6, 2, 35);
+
+--创建中国电力企业联合会管理员角色
+INSERT INTO `sys_role` VALUES (5,'中国电力企业联合会_管理员','中国电力企业联合会_管理员',1,'2017-09-26 19:23:36');
+--给中国电力企业联合会管理员角色专家菜单的权限
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (13, 5, 27);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (14, 5, 28);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (15, 5, 39);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (16, 5, 40);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (17, 5, 29);
+--创建中国电力企业联合会管理员用户
+INSERT INTO `sys_user` VALUES (19, 'dianliqiye', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','root@email.com','15696969696',1,1,null,0,'2017-10-06 13:30:29');
+--将中国电力企业联合会管理员用户加入中国电力企业联合会管理员角色
+INSERT INTO `sys_user_role` VALUES(7,19,5)
+
+--创建中国电力设备管理协会专家角色
+INSERT INTO `sys_role` VALUES (3,'中国电力设备管理协会_专家','中国电力设备管理协会_专家',1,'2017-09-26 19:23:36');
+--给中国电力设备管理协会专家角色访问评审管理、待评审、已评审菜单权限
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (7, 3, 33);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (8, 3, 34);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (9, 3, 35);
+
+--创建中国电力设备管理协会管理员角色
+INSERT INTO `sys_role` VALUES (6,'中国电力设备管理协会_管理员','中国电力设备管理协会_管理员',1,'2017-09-26 19:23:36');
+--给中国电力设备管理协会管理员角色访问专家菜单的权限限
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (18, 6, 27);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (19, 6, 28);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (20, 6, 39);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (21, 6, 40);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (22, 6, 29);
+--创建中国电力设备管理协会管理员用户
+INSERT INTO `sys_user` VALUES (20, 'dianlishebei', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','root@email.com','15696969697',1,1,null,0,'2017-10-06 13:30:29');
+--将中国电力设备管理协会管理员用户加入中国电力设备管理协会管理员角色
+INSERT INTO `sys_user_role` VALUES(8,20,6)
+
+--创建中国通用机械工业协会专家角色
+INSERT INTO `sys_role` VALUES (4,'中国通用机械工业协会_专家','中国通用机械工业协会_专家',1,'2017-09-26 19:23:36');
+--给中国通用机械工业协会专家角色访问评审管理、待评审、已评审菜单权限
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (10, 4, 33);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (11, 4, 34);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (12, 4, 35);
+
+--创建中国通用机械工业协会管理员角色
+INSERT INTO `sys_role` VALUES (7,'中国通用机械工业协会_管理员','中国通用机械工业协会_管理员',1,'2017-09-26 19:23:36');
+--给中国通用机械工业协会管理员角色访问专家菜单的权限限
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (23, 7, 27);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (24, 7, 28);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (25, 7, 39);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (26, 7, 40);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`) VALUES (27, 7, 29);
+--创建中国通用机械工业协会管理员用户
+INSERT INTO `sys_user` VALUES (21, 'tongyongjixie', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92','root@email.com','15696969699',1,1,null,0,'2017-10-06 13:30:29');
+--将中国通用机械工业协会管理员用户加入中国通用机械工业协会管理员角色
+INSERT INTO `sys_user_role` VALUES(9,21,7)
 
 
 INSERT INTO `sys_config` (`key`, `value`, `status`, `remark`) VALUES ('CLOUD_STORAGE_CONFIG_KEY', '{\"aliyunAccessKeyId\":\"\",\"aliyunAccessKeySecret\":\"\",\"aliyunBucketName\":\"\",\"aliyunDomain\":\"\",\"aliyunEndPoint\":\"\",\"aliyunPrefix\":\"\",\"qcloudBucketName\":\"\",\"qcloudDomain\":\"\",\"qcloudPrefix\":\"\",\"qcloudSecretId\":\"\",\"qcloudSecretKey\":\"\",\"qiniuAccessKey\":\"NrgMfABZxWLo5B-YYSjoE8-AZ1EISdi1Z3ubLOeZ\",\"qiniuBucketName\":\"ios-app\",\"qiniuDomain\":\"http://7xqbwh.dl1.z0.glb.clouddn.com\",\"qiniuPrefix\":\"upload\",\"qiniuSecretKey\":\"uIwJHevMRWU0VLxFvgy0tAcOdGqasdtVlJkdy6vV\",\"type\":1}', '0', '云存储配置信息');
